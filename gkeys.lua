@@ -1,4 +1,4 @@
-local ns = oBindings
+﻿local ns = oBindings
 
 local g_states = {}
 
@@ -56,9 +56,9 @@ local key_map = {
 	G17 = 5,
 	G18 = 6,
 	
-	MOUSE6 = 7,
-	MOUSE7 = 8,
-	MOUSE8 = 9,
+	BUTTON6 = 7,
+	BUTTON7 = 8,
+	BUTTON8 = 9,
 }
 
 local temp_bindings

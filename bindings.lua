@@ -1,4 +1,4 @@
-local _NAME = ...
+﻿local _NAME = ...
 local _NS = CreateFrame'Frame'
 _G[_NAME] = _NS
 
@@ -252,7 +252,7 @@ function _NS:PLAYER_TALENT_UPDATE()
 	--nil is a valid return for GetSpecialization
 	if not GetSpecializationInfo(1) then return end
 	
-	local _, spec = GetSpecialization() and GetSpecializationInfo(GetSpecialization())
+	local _, spec = GetSpecializationInfo(GetSpecialization() or 0)
 	local _, class = UnitClass'player'
 	
 	if _BINDINGS[spec] then

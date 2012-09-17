@@ -1,4 +1,4 @@
--- Stolen from Tuller's Dominos (again), with some changes
+﻿-- Stolen from Tuller's Dominos (again), with some changes
 IconIntroTracker:UnregisterAllEvents()
 MainMenuExpBar:UnregisterAllEvents()
 OverrideActionBar:UnregisterAllEvents()

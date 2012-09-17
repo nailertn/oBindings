@@ -1,9 +1,10 @@
 ## Interface: 50001
 ## Author: Haste
 
-blizzard.lua
+-blizzard.lua
 bindings.lua
 gkeys.lua
 
 bindings\base.lua
 bindings\hunter.lua
+bindings\warlock.lua

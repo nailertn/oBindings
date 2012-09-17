@@ -1,3 +1,7 @@
+local _NAME = ...
+local _NS = CreateFrame'Frame'
+_G[_NAME] = _NS
+
 local print = function(...)
 	return print('|cff33ff99oBindings:|r', ...)
 end
@@ -10,8 +14,11 @@ local states = {
 	'alt|[mod:alt]',
 	'ctrl|[mod:ctrl]',
 	'shift|[mod:shift]',
-
-	'possess|[bonusbar:5]',
+	
+	'vehicle|[vehicleui]',
+	'possess|[possessbar]',
+	'override|[overridebar]',
+	'petbattle|[petbattle]',
 
 	-- No bar1 as that's our default anyway.
 	'bar2|[bar:2]',
@@ -20,36 +27,45 @@ local states = {
 	'bar5|[bar:5]',
 	'bar6|[bar:6]',
 
-	'stealth|[bonusbar:1,stealth]',
+	'stealth|[form:1]',
 	'shadowDance|[form:3]',
 
-	'shadow|[bonusbar:1]',
+	'shadow|[stance:1]',
 
 	'bear|[form:1]',
 	'cat|[form:3]',
-	'moonkintree|[form:5]',
+	'moonkin|[form:5]',
+
+	-- Currently no way to detect if it's Prowl or other forms of stealth (Shadowmeld)
+	'prowl|[form:3,stealth]',
 
 	'battle|[stance:1]',
 	'defensive|[stance:2]',
 	'berserker|[stance:3]',
 
-	'demon|[form:2]',
+	'demon|[form:1]',
+	
+	--[[
+		Monk information:
+
+		If specced Windwalker, the approperiate stance is "Fierce Tiger" on [stance:1], and is the only stance
+		If specced Mistweaver, the approperiate stance is "Wise Serpent" on [stance:2], and also has "Fierce Tiger" on [stance:2]
+		If specced Brewmaster, the approperiate stance is "Sturdy Ox" on [stance:1], and also has "Fierce Tiger" on [stance:2]
+
+		The below names are most likely temporary
+	--]]
+	'mainStance|[stance:1]',
+	'altStance|[stance:2]',
 }
--- it won't change anyway~
-local numStates = #states
 
 local hasState = function(st)
-	for i=1,numStates do
+	for i=1,#states do
 		local state, data = string.split('|', states[i], 2)
 		if(state == st) then
 			return data
 		end
 	end
 end
-
-local _NAME = ...
-local _NS = CreateFrame'Frame'
-_G[_NAME] = _NS
 
 local _BINDINGS = {}
 local _BUTTONS = {}
@@ -118,8 +134,16 @@ local createButton = function(key)
 	]])
 
 	if(tonumber(key)) then
+		btn:SetAttribute('ob-vehicle-type', 'action')
+		btn:SetAttribute('ob-vehicle-attribute', 'action,' .. (key + 132))
+
 		btn:SetAttribute('ob-possess-type', 'action')
-		btn:SetAttribute('ob-possess-attribute', 'action,' .. (key + 120))
+		btn:SetAttribute('ob-possess-attribute', 'action,' .. (key + 132))
+
+		btn:SetAttribute('ob-override-type', 'action')
+		btn:SetAttribute('ob-override-attribute', 'action,' .. (key + 156))
+
+		-- No idea how to deal with pet battles, as they don't use action IDs
 	end
 
 	_BUTTONS[key] = btn
@@ -127,9 +151,9 @@ local createButton = function(key)
 end
 
 local clearButton = function(btn)
-	for i=1, numStates do
+	for i=1, #states do
 		local key = string.split('|', states[i], 2)
-		if(key ~= 'possess') then
+		if(key ~= 'vehicle' and key ~= 'possess' and key ~= 'override') then
 			btn:SetAttribute(string.format('ob-%s-type', key), nil)
 			key = (key == 'macro' and 'macrotext') or key
 			btn:SetAttribute(string.format('ob-%s-attribute', key), nil)
@@ -143,12 +167,18 @@ local typeTable = {
 	m = 'macro',
 }
 
+local modTable = {
+	alt = 'alt',
+	ctrl = 'ctrl',
+	shift = 'shift',
+}
+
 local bindKey = function(key, action, mod)
 	local modKey
-	if(mod and (mod == 'alt' or mod == 'ctrl' or mod == 'shift')) then
-		modKey = mod:upper() .. '-' .. key
+	if(mod and modTable[mod]) then
+		modKey = modTable[mod]:upper() .. '-' .. key
 	end
-
+	
 	local ty, action = string.split('|', action)
 	if(not action) then
 		SetBinding(modKey or key, ty)
@@ -159,7 +189,7 @@ local bindKey = function(key, action, mod)
 		btn:SetAttribute(string.format('ob-%s-type', mod or 'base'), ty)
 		ty = (ty == 'macro' and 'macrotext') or ty
 		btn:SetAttribute(string.format('ob-%s-attribute', mod or 'base'), ty .. ',' .. action)
-
+		
 		SetBindingClick(modKey or key, btn:GetName())
 	end
 end
@@ -185,13 +215,13 @@ function _NS:LoadBindings(name)
 		end
 
 		local _states = ''
-		for i=1, numStates do
+		for i=1, #states do
 			local key,state = string.split('|', states[i], 2)
-			if(bindings[key] or key == 'possess') then
+			if(bindings[key] or key == 'vehicle' or key == 'possess' or key == 'override') then
 				_states = _states .. state .. key .. ';'
 			end
 		end
-
+		
 		RegisterStateDriver(_STATE, "page", _states .. _BASE)
 		_STATE:Execute(([[
 		   local state = '%s'
@@ -205,55 +235,38 @@ _NS:SetScript('OnEvent', function(self, event, ...)
 	return self[event](self, event, ...)
 end)
 
-local talentGroup
 function _NS:ADDON_LOADED(event, addon)
 	-- For the possess madness.
 	if(addon == _NAME) then
-		for i=0,9 do
+		for i=1,6 do
 			createButton(i)
 		end
 
-		self:UnregisterEvent("ADDON_LOADED")
+		self:UnregisterEvent(event)
 		self.ADDON_LOADED = nil
 	end
 end
 _NS:RegisterEvent"ADDON_LOADED"
 
 function _NS:PLAYER_TALENT_UPDATE()
-	local numTabs = GetNumTalentTabs()
-	local talentString
-	local mostPoints = -1
-	local mostPointsName
-
-	if(numTabs == 0) then
-		return
-	end
-
-	for i=1, numTabs do
-		local id, name, _, _, points = GetTalentTabInfo(i)
-		talentString = (talentString and talentString .. '/' or '') .. points
-
-		if(points > mostPoints) then
-			mostPoints = points
-			mostPointsName = name
-		end
-	end
-
-	self:UnregisterEvent'PLAYER_TALENT_UPDATE'
-	if(_BINDINGS[talentString]) then
-		self:LoadBindings(talentString)
-	elseif(_BINDINGS[mostPointsName]) then
-		self:LoadBindings(mostPointsName)
+	--nil is a valid return for GetSpecialization
+	if not GetSpecializationInfo(1) then return end
+	
+	local _, spec = GetSpecialization() and GetSpecializationInfo(GetSpecialization())
+	local _, class = UnitClass'player'
+	
+	if _BINDINGS[spec] then
+		self:LoadBindings(spec)
+	elseif _BINDINGS[class] then
+		self:LoadBindings(class)
+	elseif _BINDINGS.base then
+		self:LoadBindings'base'
 	else
-		print('Unable to find any bindings.')
+		print'No matching bindings found.'
 	end
 end
-_NS:RegisterEvent"PLAYER_TALENT_UPDATE"
+_NS:RegisterEvent'PLAYER_TALENT_UPDATE'
 
-function _NS:ACTIVE_TALENT_GROUP_CHANGED()
-	if(talentGroup == GetActiveTalentGroup()) then return end
-
-	talentGroup = GetActiveTalentGroup()
-	self:PLAYER_TALENT_UPDATE()
-end
-_NS:RegisterEvent"ACTIVE_TALENT_GROUP_CHANGED"
+_NS._BINDINGS = _BINDINGS
+_NS.states = states
+_NS.modTable = modTable

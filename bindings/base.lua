@@ -15,7 +15,7 @@ bindings.base = {
 /cast Minor Mana Potion
 ]],
 
-	G8 = 's|Potion of Speed',
+	G8 = 'i|Potion of Speed',
 	G9 = [[m|
 /cast Mythical Healing Potion
 /cast Runic Healing Potion
@@ -49,7 +49,7 @@ bindings.base = {
 /cast Linen Bandage
 ]],
 	
-	G11 = 's|Hearthstone',
+	G11 = 'i|Hearthstone',
 	G12 = [[m|
 /cast Blood Fury
 /cast Will of the Forsaken
@@ -198,6 +198,8 @@ bindings.base = {
 	},
 	
 	shift = {
+		M = '',
+		S = '',
 		['Û'] = 'REPLY2',
 		TAB = 'TARGETPREVIOUSENEMY',
 	},

@@ -68,6 +68,7 @@ oBindings:RegisterKeyBindings('Survival', bindings.base, hunter, survival)
 
 local marksmanship = {
 	[3] = 's|Aimed Shot',
+	T = 's|Chimera Shot',
 }
 oBindings:RegisterKeyBindings('Marksmanship', bindings.base, hunter, marksmanship)
 

@@ -7,4 +7,5 @@ gkeys.lua
 
 bindings\base.lua
 bindings\hunter.lua
+bindings\priest.lua
 bindings\warlock.lua

@@ -186,12 +186,12 @@ bindings.base = {
 	NUMPAD8 = '',
 	NUMPAD9 = '',
 	
-	MOUSE3 = '',
-	MOUSE4 = '',
-	MOUSE5 = '',
-	MOUSE6 = '',
-	MOUSE7 = 'JUMP',
-	MOUSE8 = '',
+	BUTTON3 = '',
+	BUTTON4 = '',
+	BUTTON5 = '',
+	BUTTON6 = '',
+	BUTTON7 = 'JUMP',
+	BUTTON8 = '',
 
 	ctrl = {
 		V = 'NAMEPLATES',

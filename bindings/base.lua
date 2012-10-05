@@ -1,9 +1,7 @@
 ﻿local _, bindings = ...
 
-bindings.base = {
-	G4 = 'm|/reload',
-	G6 = 'EXTRAACTIONBUTTON1',
-	G7 = [[m|
+bindings.mana_potions = [[
+/cast Alchemist's Rejuvenation
 /cast Mythical Mana Potion
 /cast Runic Mana Potion
 /cast Super Mana Potion
@@ -13,10 +11,11 @@ bindings.base = {
 /cast Mana Potion
 /cast Lesser Mana Potion
 /cast Minor Mana Potion
-]],
+]]
 
-	G8 = 'i|Potion of Speed',
-	G9 = [[m|
+bindings.healing_potions = [[
+/cast Healthstone
+/cast Alchemist's Rejuvenation
 /cast Mythical Healing Potion
 /cast Runic Healing Potion
 /cast Super Healing Potion
@@ -26,9 +25,9 @@ bindings.base = {
 /cast Healing Potion
 /cast Lesser Healing Potion
 /cast Minor Healing Potion
-]],
+]]
 
-	G10 = [[m|
+bindings.bandages = [[
 /cast Heavy Windwool Bandage
 /cast Windwool Bandage
 /cast Heavy Embersilk Bandage
@@ -47,13 +46,12 @@ bindings.base = {
 /cast Wool Bandage
 /cast Heavy Linen Bandage
 /cast Linen Bandage
-]],
-	
-	G11 = 'i|Hearthstone',
-	G12 = [[m|
+]]
+
+bindings.racials = [[
 /cast Blood Fury
 /cast Will of the Forsaken
-/cast Warstomp
+/cast War Stomp
 /cast Berserking
 /cast Arcane Torrent
 /cast Rocket 
@@ -64,24 +62,40 @@ bindings.base = {
 /cast Escape Artist
 /cast Gift of the Naaru
 /cast Darkflight
-]],
+]]
 
-	G13 = [[m|
+bindings.drinks = [[
+/cast Conjured Mana Buns
 /cast Honeymint Tea
-]],
+/cast Pearl Milk Tea
+]]
 
+bindings.food = [[
+/cast Conjured Mana Buns
+/cast Salted Vension
+]]
+
+bindings.base = {
+	G4 = 'm|/reload',
+	G6 = 'EXTRAACTIONBUTTON1',
+	G7 = 'm|' .. bindings.mana_potions,
+	G8 = 'i|Potion of Speed',
+	G9 = 'm|' .. bindings.healing_potions,
+	G10 = 'm|' .. bindings.bandages,
+	G11 = 'i|Hearthstone',
+	G12 = 'm|' .. bindings.racials,
+	G13 = 'm|' .. bindings.drinks,
 	G14 = [[m|
-/cast Abyssal Seahorse
-/castrandom [nomod, flyable] Invincible, Icebound Frostbrood Vanquisher, Bloodbathed Frostbrood Vanquisher, Ironbound Proto-Drake, Rusted Proto-Drake, Mimiron's Head, Purple Riding Nether Ray
-/castrandom Amani War Bear, Crusader's Black Warhorse, Running Wild
+/castrandom [nomounted, swimming] Abyssal Seahorse; [nomounted, nomod, flyable] Invincible, Icebound Frostbrood Vanquisher, Bloodbathed Frostbrood Vanquisher, Ironbound Proto-Drake, Rusted Proto-Drake, Purple Riding Nether Ray; Amani War Bear, Crusader's Black Warhorse, Running Wild
+/dismount
 ]],	
 
 	G15 = 'm|/use 13',
-	G16 = [[m|
-/cast Salted Vension
+	G16 = 'm|' .. bindings.food,
+	G17 = [[m|
+/cast [nomounted] Amani War Bear
+/dismount
 ]],
-
-	G17 = 's|Amani War Bear',
 	G18 = 'm|/use 14',
 	
 	ESCAPE = 'TOGGLEGAMEMENU',
@@ -129,7 +143,7 @@ bindings.base = {
 	P = 'TOGGLEMOUNTJOURNAL',
 	['Õ'] = '',
 	['Ú'] = '',
-	['Û'] = 'REPLY',
+	['ű'] = 'REPLY',
 	
 	A = '',
 	S = 'MOVEBACKWARD',
@@ -176,7 +190,7 @@ bindings.base = {
 	NUMPADDECIMAL = 'TOGGLETALENTS',
 	NUMPAD0 = 'TOGGLESPELLBOOK',
 	
-	NUMPAD1 = '',
+	NUMPAD1 = 's|Mass Resurrection',
 	NUMPAD2 = '',
 	NUMPAD3 = '',
 	NUMPAD4 = '',
@@ -198,9 +212,8 @@ bindings.base = {
 	},
 	
 	shift = {
-		M = '',
 		S = '',
-		['Û'] = 'REPLY2',
+		['ű'] = 'REPLY2',
 		TAB = 'TARGETPREVIOUSENEMY',
 	},
 	

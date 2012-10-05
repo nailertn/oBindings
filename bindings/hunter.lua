@@ -71,8 +71,3 @@ local marksmanship = {
 	T = 's|Chimera Shot',
 }
 oBindings:RegisterKeyBindings('Marksmanship', bindings.base, hunter, marksmanship)
-
-local f = CreateFrame'Frame'
-f:SetScript('OnUpdate', function(self, elapsed)
-	--print(SecureCmdOptionParse('[pet, dead] 1 true; 1 false'))
-end)

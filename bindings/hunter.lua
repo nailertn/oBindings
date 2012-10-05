@@ -19,8 +19,8 @@ local hunter = {
 	[5] = 's|Serpent Sting',
 	
 	R = 'm|/cast Silencing Shot\n/cast Wyvern Sting\n/cast Binding Shot',
+	T = 's|Scatter Shot',
 	A = 's|Deterrence',
-	D = 's|Scatter Shot',
 	F = 'm|/cast Glaive Toss\n/cast Powershot\n/cast Barrage',
 	Y = 's|Widow Venom',
 	X = 's|Multi-Shot',
@@ -60,12 +60,12 @@ oBindings:RegisterKeyBindings('HUNTER', bindings.base, hunter)
 
 local survival = {
 	[3] = 's|Explosive Shot',
-	T = 's|Black Arrow',
+	D = 's|Black Arrow',
 }
 oBindings:RegisterKeyBindings('Survival', bindings.base, hunter, survival)
 
 local marksmanship = {
 	[3] = 's|Aimed Shot',
-	T = 's|Chimera Shot',
+	D = 's|Chimera Shot',
 }
 oBindings:RegisterKeyBindings('Marksmanship', bindings.base, hunter, marksmanship)

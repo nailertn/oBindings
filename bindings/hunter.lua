@@ -26,10 +26,10 @@ local hunter = {
 	X = 's|Multi-Shot',
 	C = 's|Kill Shot',
 	
+	--BUTTON2 = 'm|/cast [@mouseover] Misdirection'
 	BUTTON3 = 'm|/petmoveto',
 	BUTTON4 = 'm|/cast Aspect of the Cheetah\n/cast Aspect of the Pack',
 	BUTTON5 = 'm|/cast Aspect of the Hawk\n/cast Aspect of the Fox',
-	BUTTON6 = 'm|/cast [@mouseover,help,nodead] [help,nodead] [@player] Misdirection',
 	BUTTON8 = 'm|/cast [@mouseover,harm,dead] [harm,dead] Fetch',
 	MOUSEWHEELUP = 'm|/petattack [pet]\n/cast [nopet] Call Pet 1',
 	MOUSEWHEELDOWN = 'm|/petfollow [pet]\n/cast [nopet] Call Pet 2',

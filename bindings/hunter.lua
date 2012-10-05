@@ -1,5 +1,4 @@
 local _, bindings = ...
-local no_error = bindings.no_error
 
 local hunter = {
 	F1 = 's|Snake Trap',

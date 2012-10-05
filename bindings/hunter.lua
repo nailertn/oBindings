@@ -52,8 +52,6 @@ local hunter = {
 		BUTTON3 = 's|Dismiss Pet',
 		BUTTON4 = 's|Aspect of the Pack',
 		BUTTON5 = 's|Aspect of the Fox',
-		BUTTON6 = 'm|/cast [@mouseover,help,nodead] [help,nodead] [@player] Misdirection',
-		BUTTON8 = 'm|/cast [@mouseover,harm,dead] [harm,dead] Fetch',
 		MOUSEWHEELUP = 'm|/petassist',
 		MOUSEWHEELDOWN = 'm|/petpassive',
 	},

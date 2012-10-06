@@ -35,6 +35,12 @@ for index = 1, #my_states, 2 do
 end
 
 local key_map = {
+	BUTTON3 = 'O',
+	BUTTON4 = 'P',
+	BUTTON5 = 'J',
+	BUTTON6 = 'K',
+	BUTTON8 = 'L',
+	
 	G1 = 'F1',
 	G2 = 'F2',
 	G3 = 'F3',
@@ -49,16 +55,12 @@ local key_map = {
 	G11 = 'F11',
 	G12 = 'F12',
 	
-	G13 = 1,
-	G14 = 2,
-	G15 = 3,
-	G16 = 4,
-	G17 = 5,
-	G18 = 6,
-	
-	BUTTON6 = 7,
-	BUTTON7 = 8,
-	BUTTON8 = 9,
+	G13 = 'UP',
+	G14 = 'DOWN',
+	G15 = 'LEFT',
+	G16 = 'RIGHT',
+	G17 = 'U',
+	G18 = 'I',
 }
 
 local temp_bindings

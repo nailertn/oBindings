@@ -34,6 +34,25 @@ for index = 1, #my_states, 2 do
 	end
 end
 
+local aliases = {
+	BUTTON7 = ',',
+}
+
+local function replace_aliases(bindings)
+	for key, action in next, bindings do
+		if type(action) == 'table' then
+			replace_aliases(action)
+		else
+			local alias = aliases[key] or (type(key) == 'string' and aliases[key:upper()])
+			
+			if alias then
+				bindings[key] = nil
+				bindings[alias] = action
+			end
+		end
+	end
+end
+
 local key_map = {
 	BUTTON3 = 'O',
 	BUTTON4 = 'P',
@@ -99,6 +118,8 @@ function ns:RegisterKeyBindings(name, ...)
 	orig_RegisterKeyBindings(ns, name, ...)
 	
 	local bindings = ns._BINDINGS[name]
+	
+	replace_aliases(bindings)
 	
 	temp_bindings = {}
 	filter_g_keys(bindings)
